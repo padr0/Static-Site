@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | My Static Site</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">My Site</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html">Blog</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../pages/faq.html">FAQ</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-content">
+            <div class="container">
+                <h1>Blog</h1>
+                
+                <div class="blog-list">
+                    <!-- Blog posts will be generated here by the build script -->
+                    <article class="blog-card">
+                        <div class="blog-card-content">
+                            <h3><a href="posts/getting-started.html">Getting Started with Static Sites</a></h3>
+                            <span class="blog-date">June 1, 2023</span>
+                            <p class="blog-excerpt">Learn how to build a simple static site using HTML, CSS, and JavaScript without any complex frameworks.</p>
+                            <a href="posts/getting-started.html" class="btn">Read More</a>
+                        </div>
+                    </article>
+                    
+                    <article class="blog-card">
+                        <div class="blog-card-content">
+                            <h3><a href="posts/markdown-guide.html">Markdown Guide for Content Creation</a></h3>
+                            <span class="blog-date">June 15, 2023</span>
+                            <p class="blog-excerpt">A comprehensive guide to using Markdown for creating content for your static website.</p>
+                            <a href="posts/markdown-guide.html" class="btn">Read More</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 My Static Site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html> 

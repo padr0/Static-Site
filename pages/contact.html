@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | My Static Site</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">My Site</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-content">
+            <div class="container">
+                <div class="markdown-content">
+                    <h1 id="contact-us">Contact Us</h1>
+<p>We’d love to hear from you! Whether you have questions about static websites, need help with your project, or just want to say hello, feel free to get in touch.</p>
+<h2 id="contact-form">Contact Form</h2>
+<div class="contact-form">
+  <form id="contactForm" action="https://formspree.io/f/your-formspree-id" method="POST">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    
+<pre><code>&lt;div class=&quot;form-group&quot;&gt;
+  &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+  &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; required&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;form-group&quot;&gt;
+  &lt;label for=&quot;subject&quot;&gt;Subject&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;subject&quot; name=&quot;subject&quot; required&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;form-group&quot;&gt;
+  &lt;label for=&quot;message&quot;&gt;Message&lt;/label&gt;
+  &lt;textarea id=&quot;message&quot; name=&quot;message&quot; rows=&quot;5&quot; required&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+
+&lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;Send Message&lt;/button&gt;
+</code></pre>
+  </form>
+</div>
+
+<div id="formStatus"></div>
+
+<h2 id="other-ways-to-connect">Other Ways to Connect</h2>
+<p>You can also reach us through:</p>
+<ul>
+<li><strong>Email</strong>: <a href="mailto:&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#109;&#x79;&#x73;&#x74;&#97;&#116;&#105;&#99;&#x73;&#x69;&#x74;&#101;&#46;&#x63;&#111;&#109;">&#x65;&#x78;&#x61;&#109;&#x70;&#x6c;&#101;&#x40;&#109;&#x79;&#x73;&#x74;&#97;&#116;&#105;&#99;&#x73;&#x69;&#x74;&#101;&#46;&#x63;&#111;&#109;</a></li>
+<li><strong>Twitter</strong>: <a href="https://twitter.com">@mystaticsite</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com">mystaticsite</a></li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<p>Before contacting us, you might want to check our <a href="/pages/faq.html">FAQ page</a> to see if your question has already been answered.</p>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const url = form.getAttribute('action');
+        
+        fetch(url, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          formStatus.innerHTML = '<p class="success-message">Thanks for your message! We\'ll get back to you soon.</p>';
+          form.reset();
+        })
+        .catch(error => {
+          formStatus.innerHTML = '<p class="error-message">Oops! There was a problem sending your message. Please try again.</p>';
+          console.error(error);
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  .contact-form {
+    max-width: 600px;
+    margin: 2rem 0;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  .success-message {
+    color: #28a745;
+    padding: 1rem;
+    background-color: #d4edda;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    padding: 1rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+</style> 
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 My Static Site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
