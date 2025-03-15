@@ -244,4 +244,49 @@ footer {
     .hero h1 {
         font-size: 2rem;
     }
+}
+
+/* Contact form styles */
+.contact-form {
+    max-width: 600px;
+    margin: 2rem 0;
+}
+  
+.form-group {
+    margin-bottom: 1.5rem;
+}
+  
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+  
+input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+  
+textarea {
+    resize: vertical;
+}
+  
+.success-message {
+    color: #28a745;
+    padding: 1rem;
+    background-color: #d4edda;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+  
+.error-message {
+    color: #dc3545;
+    padding: 1rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-top: 1rem;
 } 

@@ -29,13 +29,13 @@ npm install
 
 ### Building the Site
 
-To convert Markdown files to HTML:
+To convert Markdown files to HTML and build the site:
 
 ```bash
 npm run build
 ```
 
-This will process all Markdown files in the `blog/posts` and `pages` directories and generate corresponding HTML files.
+This will process all Markdown files in the `src/content/blog/posts` and `src/content/pages` directories, generate corresponding HTML files, and copy all assets to the `dist` directory.
 
 ### Running Locally
 
@@ -47,31 +47,41 @@ npm run serve
 
 This will start a local development server and open the site in your default browser.
 
+For development (build and serve in one command):
+
+```bash
+npm run dev
+```
+
 ## Project Structure
 
 ```
 static-site/
-├── index.html              # Landing page
-├── css/
-│   └── styles.css          # Main stylesheet
-├── js/
-│   └── main.js             # JavaScript functionality
-├── blog/
-│   ├── index.html          # Blog listing page
-│   └── posts/              # Blog posts (Markdown & generated HTML)
-├── pages/                  # Static pages (Markdown & generated HTML)
-│   ├── about.md/html
-│   ├── faq.md/html
-│   └── contact.md/html
+├── src/                    # Source files
+│   ├── index.html          # Landing page
+│   ├── blog/
+│   │   └── index.html      # Blog listing page
+│   ├── assets/
+│   │   ├── css/            # Stylesheets
+│   │   │   └── styles.css
+│   │   ├── js/             # JavaScript files
+│   │   │   └── main.js
+│   │   └── images/         # Image assets
+│   └── content/            # Content files (Markdown)
+│       ├── blog/
+│       │   └── posts/      # Blog post Markdown files
+│       └── pages/          # Static page Markdown files
+├── dist/                   # Built files (generated)
 ├── build.js                # Build script for Markdown conversion
-└── package.json            # Project dependencies
+├── package.json            # Project dependencies
+└── .gitignore              # Git ignore file
 ```
 
 ## Creating Content
 
 ### Adding a Blog Post
 
-1. Create a new Markdown file in the `blog/posts` directory
+1. Create a new Markdown file in the `src/content/blog/posts` directory
 2. Include front matter at the top of the file:
 
 ```markdown
@@ -88,7 +98,7 @@ description: A brief description of your post
 
 ### Adding a Page
 
-1. Create a new Markdown file in the `pages` directory
+1. Create a new Markdown file in the `src/content/pages` directory
 2. Include front matter at the top of the file:
 
 ```markdown
@@ -105,7 +115,7 @@ title: Your Page Title
 
 ### Styling
 
-Edit the `css/styles.css` file to customize the appearance of your site.
+Edit the `src/assets/css/styles.css` file to customize the appearance of your site.
 
 ### Templates
 
@@ -116,7 +126,7 @@ The HTML templates for blog posts and pages are defined in the `build.js` file. 
 This static site can be deployed to any static hosting service:
 
 1. Build the site: `npm run build`
-2. Upload the contents of the project directory to your hosting provider
+2. Upload the contents of the `dist` directory to your hosting provider
 
 Popular hosting options include:
 - GitHub Pages

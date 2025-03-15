@@ -11,6 +11,20 @@ marked.setOptions({
   smartypants: true
 });
 
+// Create directory if it doesn't exist
+function ensureDirectoryExists(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+}
+
+// Copy file from src to dist
+function copyFile(src, dest) {
+  ensureDirectoryExists(path.dirname(dest));
+  fs.copyFileSync(src, dest);
+  console.log(`Copied: ${src} -> ${dest}`);
+}
+
 // Template for blog posts
 const blogPostTemplate = (content, frontMatter) => `
 <!DOCTYPE html>
@@ -19,7 +33,7 @@ const blogPostTemplate = (content, frontMatter) => `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${frontMatter.title} | My Static Site</title>
-    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 <body>
     <header>
@@ -53,7 +67,7 @@ const blogPostTemplate = (content, frontMatter) => `
         </div>
     </footer>
 
-    <script src="../../js/main.js"></script>
+    <script src="../../assets/js/main.js"></script>
 </body>
 </html>
 `;
@@ -66,7 +80,7 @@ const pageTemplate = (content, frontMatter) => `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${frontMatter.title} | My Static Site</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
     <header>
@@ -98,20 +112,18 @@ const pageTemplate = (content, frontMatter) => `
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 </body>
 </html>
 `;
 
 // Process blog posts
 function processBlogPosts() {
-  const postsDir = path.join(__dirname, 'blog', 'posts');
-  const outputDir = path.join(__dirname, 'blog', 'posts');
+  const postsDir = path.join(__dirname, 'src', 'content', 'blog', 'posts');
+  const outputDir = path.join(__dirname, 'dist', 'blog', 'posts');
   
   // Create output directory if it doesn't exist
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  ensureDirectoryExists(outputDir);
   
   // Get all markdown files
   const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
@@ -131,6 +143,7 @@ function processBlogPosts() {
     const htmlFilePath = path.join(outputDir, file.replace('.md', '.html'));
     const htmlFileContent = blogPostTemplate(htmlContent, data);
     
+    ensureDirectoryExists(path.dirname(htmlFilePath));
     fs.writeFileSync(htmlFilePath, htmlFileContent);
     console.log(`Processed: ${file} -> ${file.replace('.md', '.html')}`);
   });
@@ -138,13 +151,11 @@ function processBlogPosts() {
 
 // Process pages
 function processPages() {
-  const pagesDir = path.join(__dirname, 'pages');
-  const outputDir = path.join(__dirname, 'pages');
+  const pagesDir = path.join(__dirname, 'src', 'content', 'pages');
+  const outputDir = path.join(__dirname, 'dist', 'pages');
   
   // Create output directory if it doesn't exist
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  ensureDirectoryExists(outputDir);
   
   // Get all markdown files
   const files = fs.readdirSync(pagesDir).filter(file => file.endsWith('.md'));
@@ -164,13 +175,84 @@ function processPages() {
     const htmlFilePath = path.join(outputDir, file.replace('.md', '.html'));
     const htmlFileContent = pageTemplate(htmlContent, data);
     
+    ensureDirectoryExists(path.dirname(htmlFilePath));
     fs.writeFileSync(htmlFilePath, htmlFileContent);
     console.log(`Processed: ${file} -> ${file.replace('.md', '.html')}`);
   });
 }
 
+// Copy static assets
+function copyStaticAssets() {
+  // Copy CSS files
+  const cssDir = path.join(__dirname, 'src', 'assets', 'css');
+  const cssDest = path.join(__dirname, 'dist', 'assets', 'css');
+  ensureDirectoryExists(cssDest);
+  
+  fs.readdirSync(cssDir).forEach(file => {
+    copyFile(
+      path.join(cssDir, file),
+      path.join(cssDest, file)
+    );
+  });
+  
+  // Copy JS files
+  const jsDir = path.join(__dirname, 'src', 'assets', 'js');
+  const jsDest = path.join(__dirname, 'dist', 'assets', 'js');
+  ensureDirectoryExists(jsDest);
+  
+  fs.readdirSync(jsDir).forEach(file => {
+    copyFile(
+      path.join(jsDir, file),
+      path.join(jsDest, file)
+    );
+  });
+  
+  // Copy HTML files from src
+  const srcDir = path.join(__dirname, 'src');
+  const htmlFiles = [
+    'index.html',
+    'blog/index.html'
+  ];
+  
+  htmlFiles.forEach(file => {
+    const srcPath = path.join(srcDir, file);
+    const destPath = path.join(__dirname, 'dist', file);
+    
+    if (fs.existsSync(srcPath)) {
+      ensureDirectoryExists(path.dirname(destPath));
+      copyFile(srcPath, destPath);
+    }
+  });
+  
+  // Copy any images if they exist
+  const imgDir = path.join(__dirname, 'src', 'assets', 'images');
+  const imgDest = path.join(__dirname, 'dist', 'assets', 'images');
+  
+  if (fs.existsSync(imgDir)) {
+    ensureDirectoryExists(imgDest);
+    fs.readdirSync(imgDir).forEach(file => {
+      copyFile(
+        path.join(imgDir, file),
+        path.join(imgDest, file)
+      );
+    });
+  }
+}
+
+// Clean dist directory
+function cleanDist() {
+  const distDir = path.join(__dirname, 'dist');
+  if (fs.existsSync(distDir)) {
+    fs.rmSync(distDir, { recursive: true, force: true });
+    console.log('Cleaned dist directory');
+  }
+  ensureDirectoryExists(distDir);
+}
+
 // Run the build process
 console.log('Building site...');
+cleanDist();
+copyStaticAssets();
 processBlogPosts();
 processPages();
 console.log('Build complete!'); 

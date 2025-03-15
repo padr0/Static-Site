@@ -5,7 +5,8 @@
   "main": "build.js",
   "scripts": {
     "build": "node build.js",
-    "serve": "npx http-server -o"
+    "serve": "npx http-server ./dist -o",
+    "dev": "npm run build && npm run serve"
   },
   "keywords": [
     "static-site",
